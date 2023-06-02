@@ -1,0 +1,107 @@
+---
+title: "Titre du rapport"
+subtitle: "Direction de l'énergie du Canton de Vaud (DGE-DIREN)"
+author: "Unité données et indicateurs"
+date: "`r Sys.Date()`"
+execute:
+  echo: false
+format:
+  html:
+    theme: cerulean
+    toc: true
+    toc-expand: 2
+    toc-depth: 3
+    toc-title: "Contenu"
+    toc-location: left
+    number-sections: true
+    anchor-sections: true
+    fontsize: 14pt
+    page-layout: full
+lang: fr
+language:
+    title-block-author-single: "Rédaction"
+---
+
+
+
+```{css css-theme}
+h1.title{
+font-size:24pt;
+}
+
+h1{
+font-size:16pt;
+color:midnightblue;
+}
+
+h2,h3,h4{
+  font-size: 14pt;
+  color:midnightblue;
+}
+
+
+.sidebar>nav[role=doc-toc]>ul{
+font-size:0.9rem
+}
+
+```
+
+```{r}
+#| label: purl-children
+
+# List qmd child files in sections subfolder
+child_files <- list.files("sections/") |> stringr::str_subset(pattern = "\\.qmd")
+
+# 
+purrr::walk(child_files, function(file){
+
+  filename_r <- gsub("\\.qmd$", ".R", file)
+  
+  knitr::purl(quiet = FALSE,
+    input = paste0("sections/", file),
+    output = paste0("sections/raw_scripts/", filename_r)
+      
+  )
+    
+})
+
+
+```
+
+
+```{r}
+#| label: child-lecture-donnees
+#| child: "sections/introduction.qmd"
+```
+
+```{r}
+#| label: child-lecture-donnees
+#| child: "sections/lecture_donnees.qmd"
+```
+
+```{r}
+#| label: child-validation-input
+#| child: "sections/validation_input.qmd"
+```
+
+```{r}
+#| label: child-traitement
+#| child: "sections/traitement.qmd"
+```
+
+```{r}
+#| label: child-resultats
+#| child: "sections/resultats.qmd"
+```
+
+
+```{r}
+#| label: child-validation-output
+#| child: "sections/validation_output.qmd"
+```
+
+```{r}
+#| label: child-conclusion
+#| child: "sections/conclusion.qmd"
+```
+
